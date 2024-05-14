@@ -1,11 +1,32 @@
 # SaGTTA
-Source code of  "SaGTTA: saliency guided test time augmentation for medical image segmentation across vendor domain shift"
+### Source code of  "SaGTTA: saliency guided test time augmentation for medical image segmentation across vendor domain shift"
 
-Required library Albumentations, tqdm, nibabel
+Some codes are from the OptTTA https://github.com/devavratTomar/OptTTA
 
-Some codes used are from the OptTTA https://github.com/devavratTomar/OptTTA
+### Step 1. Configure Conda Environment with the YAML file:
 
-To train the segmentation model run script in source_model_training
+```commandline
+conda env create -f saggta.yml
+```
+and activate the virtual environment
+```commandline
+conda activate saggta
+```
+### Step 2. Data Proprocessing
+#### The dataset is avaiable at http://niftyweb.cs.ucl.ac.uk/challenge/index.php
+After unzip of the downloaded dataset to a folder /RAW_DATA, run the following codes:
+```commandline
+python ./data_prop/data_preprocessing.py --include_seg --rooddir /RAW_DATA --outdir /TRAIN_DATA_WITH_INTERPOLATION
+```
+and 
+```commandline
+python ./data_prop/data_preprocessing.py --include_seg --no_depth_interpolation --rooddir /RAW_DATA --outdir /TEST_DATA_WITHOUT_INTERPOLATION
+```
+To train the segmentation model run the following script with params:
+```commandline
+python ./source_model_training/main_train_source_model.py --dataroot /TRAIN_DATA_WITH_INTERPOLATION --checkpoints_dir /MODEL_SAVE_FOLDER
+```
+
 
 To perform SaGTTA, run script in sagtta
 

@@ -8,8 +8,7 @@ def get_transform(phase):
             A.VerticalFlip(),
             A.Rotate(p=0.5),
             A.GaussianBlur(),
-            A.RandomBrightness(0.2, always_apply=True),
-            A.RandomContrast(0.2),
+            A.RandomBrightnessContrast(0.2,0.2, always_apply=True),
             A.RandomGamma(),
             A.RandomResizedCrop(256, 256, scale=(0.5, 1.0)),
         ]

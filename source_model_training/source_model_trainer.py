@@ -24,7 +24,7 @@ class SourceModelTrainer():
             self.val_dataloader = None
             self.test_dataloader = DataLoader(
                 GenericDataset(self.opt.dataroot, self.opt.source_sites, seed=self.opt.seed,
-                               phase='test', target=self.opt.target_UB),
+                               phase='test'),
                 batch_size=self.opt.batch_size,
                 shuffle=False,
                 drop_last=False,
@@ -36,13 +36,11 @@ class SourceModelTrainer():
         else:
             ### initialize dataloaders
             train_dataset = GenericDataset(self.opt.dataroot, self.opt.source_sites,
-                                           seed=self.opt.seed, phase='train', split_train=True,
-                                           target=self.opt.target_UB, data_ratio=self.opt.data_ratio)
+                                           seed=self.opt.seed, phase='train', split_train=True)
             val_dataset = GenericDataset(self.opt.dataroot, self.opt.source_sites,
-                                         seed=self.opt.seed,
-                                         phase='val', split_train=True, target=self.opt.target_UB)
+                                         seed=self.opt.seed,phase='val', split_train=True)
 
-            assert train_dataset.get_indeces().all()  == val_dataset.get_indeces().all()
+            assert train_dataset.get_indeces().all() == val_dataset.get_indeces().all()
             print(train_dataset.get_indeces())
             np.save(f'{self.opt.checkpoints_dir}/train_indeces.npy', train_dataset.get_indeces())
             self.selected_indeces = train_dataset.get_indeces()
@@ -60,7 +58,7 @@ class SourceModelTrainer():
                 batch_size=self.opt.batch_size,
                 shuffle=False,
                 drop_last=True,
-                num_workers=4
+                num_workers=self.opt.n_dataloader_workers
             )
 
             print('Length of validation dataset: ', len(self.val_dataloader))
@@ -253,8 +251,8 @@ class SourceModelTrainer():
             with self.iter_counter.time_measurement("maintenance"):
                 if self.iter_counter.needs_printing():
                     self.logger.print_current_losses(self.iter_counter.steps_so_far,
-                                                         self.iter_counter.time_measurements,
-                                                         self.metric_tracker.current_metrics())
+                                                     self.iter_counter.time_measurements,
+                                                     self.metric_tracker.current_metrics())
 
                 if self.iter_counter.needs_displaying():
                     visuals = self.get_visuals_for_snapshot([images, segs])
@@ -295,8 +293,7 @@ class SourceModelTrainer():
                         val_metrics[k] = np.nanmean(v.numpy())
 
                     self.schedular.step(val_metrics['ds'])
-                    self.visualizer.plot_current_losses(self.iter_counter.steps_so_far, val_losses)
-                    self.visualizer.plot_current_metrics(self.iter_counter.steps_so_far, val_metrics)
+
 
                 if self.iter_counter.completed_training():
                     break

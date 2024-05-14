@@ -178,10 +178,10 @@ def process_images(rootdir, outdir, include_seg=False, depth_interpolation=True)
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Preprocess Nii Volumes for Spinal Cord Dataset')
 
-    parser.add_argument('--rootdir', help='The root directory for the input images.')
-    parser.add_argument('--outdir', help='Output directory for the processed images.')
-    parser.add_argument('--include_seg', action='store_true', help='Include segmentations.')
-    parser.add_argument('--no_depth_interpolation', defalult=False,
+    parser.add_argument('--rootdir', default = '/home/syou/training-data-gm-sc-challenge-ismrm16-v20160302b', help='The root directory for the input images.')
+    parser.add_argument('--outdir', default = '/home/syou/interpolated' ,help='Output directory for the processed images.')
+    parser.add_argument('--include_seg', default=True, action='store_true', help='Include segmentations.')
+    parser.add_argument('--no_depth_interpolation', default=False,
                         help='Interploate in the depth dimension to make isotropic spacing in depth dimension')
     args = parser.parse_args()
     process_images(args.rootdir, args.outdir, args.include_seg, not args.no_depth_interpolation)
