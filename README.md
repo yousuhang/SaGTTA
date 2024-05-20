@@ -6,11 +6,11 @@
 ### Step 1. Configure Conda Environment with the YAML file:
 
 ```commandline
-conda env create -f saggta.yml
+conda env create -f sagtta.yml
 ```
 and activate the virtual environment
 ```commandline
-conda activate saggta
+conda activate sagtta
 ```
 ### Step 2. Data Preprocessing
 #### The dataset is available at http://niftyweb.cs.ucl.ac.uk/challenge/index.php
@@ -56,7 +56,7 @@ python ./test_result.py --prediction_path /SAGTTA_RESULT_SAVE_FOLDER --dataroot 
 ```commandline
 python ./opttta/main_opttta.py --n_augs THE_NUMBER_OF_AUGMENTATIONS --checkpoints_source_free_da /SAGTTA_RESULT_SAVE_FOLDER --checkpoints_source_segmentor /SOURCE_MODEL_SAVE_FOLDER --dataroot /TESR_DATA_WITH_INTERPOLATION_NUMPY_SLICE
 ```
-#### Same Running settings with SaGTTA
+#### Same running settings with SaGTTA
 
 
 If you find the code is useful please cite the paper. Thanks!
