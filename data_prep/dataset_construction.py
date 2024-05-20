@@ -3,7 +3,7 @@ import os
 import torch
 import numpy as np
 import albumentations as A
-from data_prop.image_transformations import get_transform
+from data_prep.image_transformations import get_transform
 from utils.utils import natural_sort
 
 

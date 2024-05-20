@@ -18,8 +18,9 @@ def ensure_dirs(checkpoints_dir):
 
 def get_source_free_domain_adaptaion_options(parser):
     ## Experiment Specific
-    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t/trial1_opttta', type=str)
+    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t/trial2_opttta', type=str)
     parser.add_argument('--checkpoints_source_segmentor', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t', type=str)
+    parser.add_argument('--candidate_policy_file', default = None, type = str)
     parser.add_argument('--use_gpu', default=True, type=bool)
     parser.add_argument('--gpu_id', default=0, type=int)
     parser.add_argument('--lr', default=0.001, type=float)
@@ -37,7 +38,7 @@ def get_source_free_domain_adaptaion_options(parser):
     parser.add_argument("--n_steps", default=1000, type=int)
     parser.add_argument("--alpha_1", default=1, type=float)
     parser.add_argument("--alpha_2", default=1, type=float)
-    parser.add_argument("--n_augs", default=6, type=int)
+    parser.add_argument("--n_augs", default=1, type=int)
     parser.add_argument("--bs", default=16, type=int)
 
     parser.add_argument("--k", default=128, type=int)

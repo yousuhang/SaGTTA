@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 from utils.losses import CrossEntropyLossWeighted
 import numpy as np
 from tqdm import tqdm
-from data_prop.dataset_construction import GenericDataset
+from data_prep.dataset_construction import GenericDataset
 from network.unet import UNet
 from utils.iter_counter import IterationCounter
 from utils.logger import Logger

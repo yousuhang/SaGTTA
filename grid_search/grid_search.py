@@ -9,7 +9,7 @@ import numpy as np
 
 from tqdm import tqdm
 
-from data_prop.dataset_construction import GenericVolumeDataset
+from data_prep.dataset_construction import GenericVolumeDataset
 from network.unet import UNet
 from transformations.transformation import Gamma, GaussianBlur, Contrast, RandomResizeCropV2, Brightness
 from utils.iter_counter import IterationCounter

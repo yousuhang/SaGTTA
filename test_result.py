@@ -38,23 +38,20 @@ parser = argparse.ArgumentParser(description="Test script")
 
 # Checkpoint arguments
 parser.add_argument('--prediction_path',
-                    default='/home/syou/nerve/logs_spinal_cord_site1/bilinear_1em6_torch_t/adaptives/20000/bilinear_1em6_torch_transpose_sopt_a_1',
+                    default='/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t/trial1',
                     type=str)
 
 # Model arguments
 parser.add_argument('--n_classes', default=3, type=int)
 
 # Dataset arguments
-parser.add_argument('--dataset_mode', choices=['spinalcord', 'heart', 'prostate'], default='spinalcord', type=str)
-parser.add_argument('--dataroot', default='/media/SpinalCord_nodepth_test_npy', type=str)
+parser.add_argument('--dataroot', default='/home/syou/SpinalCord_test_npy', type=str)
 parser.add_argument('--target_sites', default='3')
 
 opt = parser.parse_args()
 
-if opt.dataset_mode == 'prostate':
-    opt.target_sites = ['site-' + site_nbr for site_nbr in opt.target_sites.split(',')]
-else:
-    opt.target_sites = ['site' + site_nbr for site_nbr in opt.target_sites.split(',')]
+
+opt.target_sites = ['site' + site_nbr for site_nbr in opt.target_sites.split(',')]
 
 # Extract predictions and gt segments
 predictions_path = os.path.join(opt.prediction_path, "predictions")

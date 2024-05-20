@@ -10,7 +10,7 @@ import tqdm
 
 import itertools
 
-from data_prop.dataset_construction import GenericVolumeDataset
+from data_prep.dataset_construction import GenericVolumeDataset
 from transformations.differentiable_transformation import Gamma, GaussianBlur, Contrast, Brightness, Identity, \
     RandomResizeCrop, RandomHorizontalFlip, RandomVerticalFlip, RandomRotate, RandomScaledCenterCrop, DummyAugmentor
 from network.unet import UNet
@@ -321,6 +321,13 @@ class OptTTA():
 
         ## check if exploration is done!
         OPT_POLICY_CHECKPOINT = os.path.join(self.opt.checkpoints_source_free_da, 'OptimalSubpolicy.txt')
+        OPT_POLICY_LOSS = os.path.join(self.opt.checkpoints_source_free_da, 'OptimalSubpolicyLoss.txt')
+
+        if self.opt.candidate_policy_file:
+            CANDIDATE_POLICY_FILE = self.opt.candidate_policy_file
+        else:
+            CANDIDATE_POLICY_FILE = os.path.join(self.opt.checkpoints_source_free_da, 'CandidateSubpolicy.txt')
+
         if os.path.exists(OPT_POLICY_CHECKPOINT):
             print('\n\nOptimized Sub policies found. Performing exploitation........\n\n')
             with open(OPT_POLICY_CHECKPOINT, 'r') as f:
@@ -336,6 +343,20 @@ class OptTTA():
 
                 sub_policies.append(subpolicyclasses)
 
+        elif os.path.exists(CANDIDATE_POLICY_FILE):
+            print('\n\nCandidate Sub policies found. Performing exploration........\n\n')
+            with open(CANDIDATE_POLICY_FILE, 'r') as f:
+                OPT_POLICIES = f.readlines()
+
+            for line in OPT_POLICIES:
+                subpolicytxt = line.split('_')
+                subpolicyclasses = []
+
+                for policy in subpolicytxt:
+                    policy = policy.strip()
+                    subpolicyclasses.append(STRING_TO_CLASS[policy])
+
+                sub_policies.append(subpolicyclasses)
         else:
             print('\n\nNo Optimized Sub policies exists. Performing exploration........\n\n')
 
@@ -447,7 +468,11 @@ class OptTTA():
             with open(OPT_POLICY_CHECKPOINT, 'w') as f:
                 for line in names_opt_sub_polices:
                     f.write("%s\n" % line)
-
+        if not os.path.exists(OPT_POLICY_LOSS):
+            with open(OPT_POLICY_LOSS, 'w') as f:
+                for k, line in enumerate(names_opt_sub_polices):
+                    newline = f"{line} {np.sort(global_policy_losses)[k]}"
+                    f.write("%s\n" % newline)
         return final_prediction_labels, final_prediction, all_sub_policy_viz_aug, all_sub_policy_viz_pred
 
     def visualize_losses(self, x, policy_name, image_name):

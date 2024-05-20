@@ -10,7 +10,7 @@ import tqdm
 from matplotlib import pyplot as plt
 
 from utils import losses
-from data_prop.dataset_construction import GenericVolumeDataset
+from data_prep.dataset_construction import GenericVolumeDataset
 from interpretability.attributionalgorithms import IG_simple
 from interpretability.baseline_generator import GlobalMinimumBaseline
 from interpretability.image_interpolation import LinearImageInterpolator
@@ -41,7 +41,7 @@ STRING_TO_CLASS = {
 
 
 
-class SOptTTA_GC():
+class SOptTTA_GC():  # Due to RAM issue I wrote to gradient update in the fashion of gradient accumulation. If you have better hardware, please switch to normal gradient update
     def __init__(self, opt):
         self.opt = opt
         print("Test Time Data Augmentation")
@@ -383,6 +383,7 @@ class SOptTTA_GC():
         ## check if exploration is done!
         OPT_POLICY_CHECKPOINT = os.path.join(self.opt.checkpoints_source_free_da, 'OptimalSubpolicy.txt')
         OPT_POLICY_LOSS = os.path.join(self.opt.checkpoints_source_free_da, 'OptimalSubpolicyLoss.txt')
+
         if self.opt.candidate_policy_file:
             CANDIDATE_POLICY_FILE = self.opt.candidate_policy_file
         else:
