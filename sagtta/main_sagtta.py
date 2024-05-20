@@ -7,8 +7,8 @@ from sagtta import SOptTTA_GC
 
 def get_source_free_domain_adaptaion_options(parser):
     ## Experiment Specific/home/syou/nerve/OptTTA/main_sopttta_gc.py
-    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/logs_spinal_cord_site1/bilinear_1em6_torch_transpose_opt7GCl1', type=str)
-    parser.add_argument('--checkpoints_source_segmentor', default = '/home/syou/logs_spinal_cord_site1/bilinear_1em6_torch_t', type=str)
+    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t/trial1', type=str)
+    parser.add_argument('--checkpoints_source_segmentor', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t', type=str)
     parser.add_argument('--candidate_policy_file', default = None, type = str)
     parser.add_argument('--sal1_train_path', default = None)
     parser.add_argument('--sal2_train_path', default = None)
@@ -23,7 +23,7 @@ def get_source_free_domain_adaptaion_options(parser):
     parser.add_argument('--n_classes', default=3, type=int)
 
     ## Datasets
-    parser.add_argument('--dataroot', default = '/home/syou/OptTTA_tf/SpinalCord_nodepth_test_npy', type=str) # default='../datasets_slices/spinal_cord_no_depth_interpolation/train'
+    parser.add_argument('--dataroot', default = '/home/syou/SpinalCord_test_npy', type=str) # default='../datasets_slices/spinal_cord_no_depth_interpolation/train'
     parser.add_argument('--target_sites', default = '3')
 
     ## Networks
@@ -42,10 +42,8 @@ def get_source_free_domain_adaptaion_options(parser):
 
     opt = parser.parse_args()
     opt.gpu_id = 'cuda:%s'%opt.gpu_id
-    if opt.dataset_mode == 'prostate':
-        opt.target_sites = ['site-'+ site_nbr for site_nbr in opt.target_sites.split(',')]
-    else:
-        opt.target_sites = ['site'+ site_nbr for site_nbr in opt.target_sites.split(',')]
+
+    opt.target_sites = ['site'+ site_nbr for site_nbr in opt.target_sites.split(',')]
     return opt
 
 

@@ -40,8 +40,8 @@ def slice_volumes(rootdir, outdir, debug=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Slice and Dice the dataset')
 
-    parser.add_argument('--rootdir', default= '/home/syou/interpolated',help='The root directory for the input images.')
-    parser.add_argument('--outdir', default= '/home/syou/interpolated_npy', help='Output directory for the processed images.')
+    parser.add_argument('--rootdir', default= '/home/syou/SpinalCord_test',help='The root directory for the input images.')
+    parser.add_argument('--outdir', default= '/home/syou/SpinalCord_test_npy', help='Output directory for the processed images.')
     parser.add_argument('--debug', action='store_true', help='Display the Segmentations and Images in Debug Folder')
     args = parser.parse_args()
     slice_volumes(args.rootdir, args.outdir, args.debug)

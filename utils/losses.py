@@ -33,3 +33,39 @@ class CrossEntropyLossWeighted(nn.Module):
         loss = loss * one_hot
 
         return torch.sum(loss) / (torch.sum(weights) * targets.size(0) * targets.size(1))
+
+class ContourRegularizationLoss(nn.Module):
+    def __init__(self, d=4):
+        super().__init__()
+        self.max_pool = nn.MaxPool2d(kernel_size=2 * d + 1)
+
+    def forward(self, x):
+        # x is the probability maps
+        C_d = self.max_pool(x) + self.max_pool(-1*x) # size is batch x 1 x h x w
+
+        loss = torch.norm(C_d, p=2, dim=(2, 3)).mean()
+        return loss
+
+
+class NuclearNorm(nn.Module):
+    def __init__(self, k=4):
+        super().__init__()
+        self.max_pool = nn.MaxPool2d(kernel_size=k)
+
+    def forward(self, x):
+        # x is probabilities
+        x = self.max_pool(x) # size is batch x n_classes x h x w
+        x = x.permute(0, 2, 3, 1) # batch x h x w x n_classes
+        x = x.flatten(1, 2) # batch x hw x n_classes
+        loss = torch.norm(x, p='nuc', dim=(1, 2)).mean()
+        return loss
+
+class Cos_Sim(nn.Module):
+    def __init__(self, dim=1, eps=1e-7):
+        super().__init__()
+        self.cos_sim = nn.CosineSimilarity(dim=dim, eps=eps)
+
+    def forward(self, x, y):
+        # x , y are input images/vectors
+        cos_sim = self.cos_sim(x,y).mean()
+        return cos_sim

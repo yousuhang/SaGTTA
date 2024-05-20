@@ -18,8 +18,8 @@ def ensure_dirs(checkpoints_dir):
 
 def get_source_free_domain_adaptaion_options(parser):
     ## Experiment Specific
-    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/OptTTA/bilinear_1em6_torch_t/adaptives/20000/bilinear_1em6_torch_transpose_opptta', type=str)
-    parser.add_argument('--checkpoints_source_segmentor', default = '/home/syou/OptTTA/bilinear_1em6_torch_t', type=str)
+    parser.add_argument('--checkpoints_source_free_da', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t/trial1_opttta', type=str)
+    parser.add_argument('--checkpoints_source_segmentor', default = '/home/syou/sagtta_experiments/logs_spinal_cord_site1/bilinear_1em6_torch_t', type=str)
     parser.add_argument('--use_gpu', default=True, type=bool)
     parser.add_argument('--gpu_id', default=0, type=int)
     parser.add_argument('--lr', default=0.001, type=float)
@@ -30,7 +30,7 @@ def get_source_free_domain_adaptaion_options(parser):
     parser.add_argument('--n_classes', default=3, type=int)
 
     ## Datasets
-    parser.add_argument('--dataroot', default = '/home/syou/OptTTA_tf/SpinalCord_nodepth_test_npy', type=str) # default='../datasets_slices/spinal_cord_no_depth_interpolation/train'
+    parser.add_argument('--dataroot', default = '/home/syou/SpinalCord_test_npy', type=str) # default='../datasets_slices/spinal_cord_no_depth_interpolation/train'
     parser.add_argument('--target_sites', default = '3')
 
     ## Networks
@@ -46,10 +46,8 @@ def get_source_free_domain_adaptaion_options(parser):
 
     opt = parser.parse_args()
     opt.gpu_id = 'cuda:%s'%opt.gpu_id
-    if opt.dataset_mode == 'prostate':
-        opt.target_sites = ['site-'+ site_nbr for site_nbr in opt.target_sites.split(',')]
-    else:
-        opt.target_sites = ['site'+ site_nbr for site_nbr in opt.target_sites.split(',')]
+
+    opt.target_sites = ['site'+ site_nbr for site_nbr in opt.target_sites.split(',')]
     return opt
 
 if __name__ == '__main__':

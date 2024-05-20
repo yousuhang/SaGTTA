@@ -6,7 +6,6 @@ from torch.nn import Softmax2d, Module
 
 from interpretability.baseline_generator import AbstractBaselineGenerator
 from interpretability.image_interpolation import AbstractImageInterpolator
-from interpretability.spatial_iteration import AbstractSpatialIterator
 
 
 class AttributionAlgorithm(ABC):
